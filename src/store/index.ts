@@ -1,33 +1,18 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import thunk from 'redux-thunk';
 
-interface CalendarState {
-  info: number;
-}
+import { usersApi } from './queries/users';
+import { auth } from './root-reducer';
 
-const initialState: CalendarState = {
-  info: 0,
-};
-
-const { reducer, actions } = createSlice({
-  name: 'calendar',
-  initialState,
-  reducers: {
-    increment: (state, action) => {
-      state.info = state.info++;
-    },
-  },
-  extraReducers: {},
+const rootReducer = combineReducers({
+  auth,
+  [usersApi.reducerPath]: usersApi.reducer,
 });
-
-export const { increment } = actions;
-
-const rootReducer = combineReducers({ reducer });
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(usersApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
