@@ -16,6 +16,7 @@ const { reducer, actions } = createSlice({
     setIsAuth: (state, action) => {
       console.log('setIsAuth');
       const { isAuth } = action.payload;
+      console.log(isAuth, 'hjk');
       state.isAuth = isAuth;
     },
     setIsLoading: (state, action) => {

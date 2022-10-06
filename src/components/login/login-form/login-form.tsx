@@ -7,7 +7,7 @@ import { useGetUsersQuery } from '../../../store/queries/users';
 import { rules } from '../../../utils/rules';
 
 const LoginForm: FC = () => {
-  useGetUsersQuery({ username: 'Serhii', password: '123' });
+  useGetUsersQuery({ username: 'Serhii', password: 123 });
   const handleSubmit = (): void => {
     console.log('Hi');
   };
