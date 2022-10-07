@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Form, Input, Button } from 'antd';
 
 import './module.css';
-import { useGetUsersQuery } from '../../../store/queries/users';
+import { User } from '../../../common/types';
+import { AppDispatch } from '../../../store';
+import { loginUser } from '../../../store/auth/slice';
 import { rules } from '../../../utils/rules';
 
 const LoginForm: FC = () => {
-  useGetUsersQuery({ username: 'Serhii', password: 123 });
+  const user: User = { username: 'Serhii', password: '123' };
+  const dispatch = useDispatch<AppDispatch>();
   const handleSubmit = (): void => {
-    console.log('Hi');
+    dispatch(loginUser(user));
   };
   return (
     <Form

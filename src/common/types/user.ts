@@ -1,6 +1,6 @@
 interface User {
   username: string;
-  password: number;
+  password: string;
 }
 
 export type { User };

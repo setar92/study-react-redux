@@ -11,7 +11,7 @@ const Navbar: FC = () => {
   const navigate = useNavigate();
   const handleLogin = (): void => navigate(RoutePath.LOGIN);
   const handleLogOut = (): void => console.log('logout');
-  const { isAuth } = useAppSelector((store) => store.auth);
+  const isAuth = useAppSelector((store) => store.auth.isAuth);
 
   const item1: MenuProps['items'] = [
     { key: 1, label: 'Login', onClick: handleLogin },

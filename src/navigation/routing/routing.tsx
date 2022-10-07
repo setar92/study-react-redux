@@ -9,7 +9,7 @@ import { Event } from '../../pages/Event';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 const Routing: FC = () => {
-  const { isAuth } = useAppSelector((store) => store.auth);
+  const isAuth = useAppSelector((store) => store.auth.isAuth);
 
   return (
     <BrowserRouter>
