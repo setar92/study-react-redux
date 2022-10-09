@@ -1,19 +1,20 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Form, Input, Button } from 'antd';
 
 import './module.css';
-import { User } from '../../../common/types';
 import { AppDispatch } from '../../../store';
 import { loginUser } from '../../../store/auth/slice';
 import { rules } from '../../../utils/rules';
 
 const LoginForm: FC = () => {
-  const user: User = { username: 'Serhii', password: '123' };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch<AppDispatch>();
   const handleSubmit = (): void => {
-    dispatch(loginUser(user));
+    dispatch(loginUser({ username, password }));
   };
   return (
     <Form
@@ -28,14 +29,20 @@ const LoginForm: FC = () => {
         name="username"
         rules={[rules.required('Please input your username!')]}
       >
-        <Input />
+        <Input
+          value={username}
+          onChange={(e): void => setUsername(e.target.value)}
+        />
       </Form.Item>
       <Form.Item
         label="Password"
         name="Password"
         rules={[rules.required('Please input your password!')]}
       >
-        <Input />
+        <Input
+          value={password}
+          onChange={(e): void => setPassword(e.target.value)}
+        />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">

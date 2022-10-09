@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// import { AppDispatch } from '..';
 import { CalendarState, User } from '../../common/types';
 
 const initialState: CalendarState = {
@@ -11,15 +10,10 @@ const initialState: CalendarState = {
   user: {} as User,
 };
 
-// type AsyncThunkConfig = {
-//   state: CalendarState;
-//   dispatch: AppDispatch;
-// };
-
-const loginUser = createAsyncThunk('check/isAuth', async (user: User) => {
-  const users = await axios.get('users.json');
-  console.log(users);
-  console.log(user, 'password');
+const loginUser = createAsyncThunk('check/isAuth', async (_: User) => {
+  const response = await axios.get<User[]>('users.json');
+  const mockUsers = response.data;
+  return mockUsers;
 });
 
 const { reducer, actions } = createSlice({
@@ -44,8 +38,23 @@ const { reducer, actions } = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state, _) => {
+      state.isLoading = true;
+    });
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      console.log('extraReduxer', state, action.type);
+      const user: User = action.meta.arg;
+      const mockUsers = action.payload;
+      const currentUser = mockUsers.find(
+        (it) => it.username === user.username && it.password == user.password,
+      );
+      if (currentUser) {
+        state.isAuth = true;
+        state.user = currentUser;
+      }
+      state.isLoading = false;
+    });
+    builder.addCase(loginUser.rejected, (state, _) => {
+      state.error = 'Error while logging in';
     });
   },
 });
