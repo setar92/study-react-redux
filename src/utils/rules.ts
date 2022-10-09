@@ -4,7 +4,7 @@ interface Rule {
 }
 
 const rules = {
-  required: (message: string): Rule => ({
+  required: (message = 'Required field'): Rule => ({
     required: true,
     message,
   }),

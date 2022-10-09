@@ -3,3 +3,7 @@
 .ant-menu-item-only-child {
   min-width: 75px;
 }
+
+.h100 {
+  height: calc(100vh - 64px);
+}

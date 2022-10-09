@@ -1,12 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Layout, Row } from 'antd';
+import { Layout, Row, Card } from 'antd';
 
-import './module.css';
-import { RoutePath } from '../../common/enums/index';
-import { useAppSelector } from '../../hooks/store/store-hooks';
-import { LoginForm } from './login-form/login-form';
+import { RoutePath } from '../common/enums/index';
+import { LoginForm } from '../components/login-form/login-form';
+import { useAppSelector } from '../hooks/store/store-hooks';
 
 const Login: FC = () => {
   const isAuth = useAppSelector((store) => store.auth.isAuth);
@@ -20,7 +19,9 @@ const Login: FC = () => {
   return (
     <Layout>
       <Row justify="center" align="middle" className="h100">
-        <LoginForm />
+        <Card>
+          <LoginForm />
+        </Card>
       </Row>
     </Layout>
   );

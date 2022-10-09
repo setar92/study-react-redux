@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { RoutePath } from '../../common/enums/index';
-import { Login } from '../../components/login/login';
 import { Navbar } from '../../components/navbar/navbar';
 import { useAppSelector } from '../../hooks/store/store-hooks';
 import { Event } from '../../pages/Event';
+import { Login } from '../../pages/login';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 const Routing: FC = () => {

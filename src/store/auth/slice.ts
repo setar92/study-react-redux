@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-import { CalendarState, User } from '../../common/types';
+import * as userService from '../../api/user-service';
+import {
+  CalendarState,
+  User,
+  SetAuthAction,
+  SetUserAction,
+  SetErrorAction,
+  SetLoadingAction,
+} from '../../common/types';
 
 const initialState: CalendarState = {
   isAuth: false,
@@ -11,8 +18,7 @@ const initialState: CalendarState = {
 };
 
 const loginUser = createAsyncThunk('check/isAuth', async (_: User) => {
-  const response = await axios.get<User[]>('users.json');
-  const mockUsers = response.data;
+  const mockUsers = await userService.getUsers();
   return mockUsers;
 });
 
@@ -20,21 +26,27 @@ const { reducer, actions } = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    setIsAuth: (state, action) => {
-      const { isAuth } = action.payload;
+    setIsAuth: (state, action: SetAuthAction) => {
+      const isAuth = action.payload;
       state.isAuth = isAuth;
     },
-    setIsLoading: (state, action) => {
-      const { isLoading } = action.payload;
+    setIsLoading: (state, action: SetLoadingAction) => {
+      const isLoading = action.payload;
       state.isLoading = isLoading;
     },
-    setError: (state, action) => {
-      const { error } = action.payload;
+    setError: (state, action: SetErrorAction) => {
+      const error = action.payload;
       state.error = error;
     },
-    setUser: (state, action) => {
-      const { user } = action.payload;
+    setUser: (state, action: SetUserAction) => {
+      const user = action.payload;
       state.user = user;
+    },
+    logout: (state) => {
+      localStorage.removeItem('Auth');
+      localStorage.removeItem('username');
+      state.user = {} as User;
+      state.isAuth = false;
     },
   },
   extraReducers: (builder) => {
@@ -48,8 +60,12 @@ const { reducer, actions } = createSlice({
         (it) => it.username === user.username && it.password == user.password,
       );
       if (currentUser) {
+        localStorage.setItem('Auth', 'true');
+        localStorage.setItem('username', currentUser.username);
         state.isAuth = true;
         state.user = currentUser;
+      } else {
+        state.error = 'Not correct value';
       }
       state.isLoading = false;
     });
@@ -60,4 +76,4 @@ const { reducer, actions } = createSlice({
 });
 
 export { reducer, loginUser };
-export const { setIsAuth, setIsLoading, setError, setUser } = actions;
+export const { setIsAuth, setIsLoading, setError, setUser, logout } = actions;
