@@ -9,5 +9,4 @@ const rules = {
     message,
   }),
 };
-
 export { rules };

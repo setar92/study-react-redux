@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
 import './module.css';
+import { rules } from '../../helpers/rules';
 import { useAppSelector } from '../../hooks/store/store-hooks';
 import { AppDispatch } from '../../store';
 import { loginUser } from '../../store/auth/slice';
-import { rules } from '../../utils/rules';
+import { fetchEvents, fetchGuests } from '../../store/event/event-thunks';
 
 const LoginForm: FC = () => {
   const [username, setUsername] = useState('');
@@ -16,6 +17,8 @@ const LoginForm: FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const handleSubmit = (): void => {
+    dispatch(fetchEvents(username));
+    dispatch(fetchGuests());
     dispatch(loginUser({ username, password }));
   };
   return (

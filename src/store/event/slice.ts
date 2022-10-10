@@ -1,21 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import * as userService from '../../api/user-service';
-import {
-  EventState,
-  SetGuestsAction,
-  SetIventsAction,
-} from '../../common/types';
+import { EventState, SetGuestsAction } from '../../common/types';
+import { fetchGuests, addEvent, fetchEvents } from './event-thunks';
 
 const initialState: EventState = {
   guests: [],
   events: [],
 };
-
-const fetchGuests = createAsyncThunk('fetch/guests', async () => {
-  const guests = await userService.getUsers();
-  return guests;
-});
 
 const { reducer, actions } = createSlice({
   name: 'calendar',
@@ -25,17 +16,26 @@ const { reducer, actions } = createSlice({
       const users = action.payload;
       state.guests = users;
     },
-    setEvents: (state, action: SetIventsAction) => {
-      const events = action.payload;
-      state.events = events;
+    clearEvents: (state) => {
+      state.events = [];
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchGuests.fulfilled, (state, action) => {
       state.guests = action.payload;
     });
+    builder.addCase(addEvent.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.events = action.payload;
+      }
+    });
+    builder.addCase(fetchEvents.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.events = action.payload;
+      }
+    });
   },
 });
 
-export { reducer, fetchGuests };
-export const { setGuests, setEvents } = actions;
+export { reducer, fetchGuests, addEvent, fetchEvents };
+export const { setGuests, clearEvents } = actions;

@@ -5,9 +5,9 @@ interface SetGuestsAction {
   payload: User[];
 }
 
-interface SetIventsAction {
+interface addIventAction {
   type: string;
-  payload: IEvent[];
+  payload: IEvent;
 }
 
-export type { SetGuestsAction, SetIventsAction };
+export type { SetGuestsAction, addIventAction };

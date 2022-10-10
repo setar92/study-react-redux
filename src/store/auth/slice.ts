@@ -62,8 +62,8 @@ const { reducer, actions } = createSlice({
       if (currentUser) {
         localStorage.setItem('Auth', 'true');
         localStorage.setItem('username', currentUser.username);
-        state.isAuth = true;
         state.user = currentUser;
+        state.isAuth = true;
       } else {
         state.error = 'Not correct value';
       }

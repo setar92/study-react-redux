@@ -9,6 +9,7 @@ import { RoutePath } from '../../common/enums/index';
 import { useAppSelector } from '../../hooks/store/store-hooks';
 import { AppDispatch } from '../../store';
 import { logout } from '../../store/auth/slice';
+import { clearEvents } from '../../store/event/slice';
 
 const Navbar: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,6 +17,7 @@ const Navbar: FC = () => {
   const handleLogin = (): void => navigate(RoutePath.LOGIN);
   const handleLogOut = (): void => {
     dispatch(logout());
+    dispatch(clearEvents());
   };
   const { isAuth, user } = useAppSelector((store) => store.auth);
 

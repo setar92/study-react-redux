@@ -8,4 +8,4 @@ export type {
   SetLoadingAction,
 } from './state/auth-actions';
 export type { EventState } from './state/event-state';
-export type { SetGuestsAction, SetIventsAction } from './state/event-actions';
+export type { SetGuestsAction, addIventAction } from './state/event-actions';

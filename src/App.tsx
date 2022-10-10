@@ -7,6 +7,8 @@ import { Layout } from 'antd';
 import { Routing } from './navigation/routing/routing';
 import { AppDispatch } from './store';
 import { setIsAuth, setUser } from './store/auth/slice';
+import { fetchEvents } from './store/event/event-thunks';
+import { fetchGuests } from './store/event/slice';
 
 const App: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +17,8 @@ const App: FC = () => {
       const username = localStorage.getItem('username') as string;
       dispatch(setIsAuth(true));
       dispatch(setUser({ username, password: '' }));
+      dispatch(fetchEvents(username));
+      dispatch(fetchGuests());
     }
   }, []);
   return (
